@@ -14,7 +14,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data     #Что то надо придумать
+      - ./postgres-data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_PASSWORD: example
@@ -28,4 +28,4 @@ services:
       - :8080
 
 volumes:
-  postgres-data: null        #Такая же проблема
+  postgres-data: null
