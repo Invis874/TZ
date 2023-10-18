@@ -1,0 +1,31 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+  python:
+    build: . 
+    ports:
+      - :8080
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:example@db:5432/db
+
+  db:
+    image: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data     #Что то надо придумать
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: postgres
+      POSTGRES_DB: db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - :8080
+
+volumes:
+  postgres-data: null        #Такая же проблема
