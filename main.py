@@ -1,5 +1,4 @@
 from fastapi import Depends, FastAPI, HTTPException
-#from sqlalchemy.orm import Session
 
 from sql_app import models
 from sql_app.database import Session, engine
@@ -18,9 +17,9 @@ def read_root(integer: int):
 
 @app.post("/")
 def post_root(integer: int):
-    questions(integer)
+    x = questions(integer)
 
-    return integer
+    return x
 
 def questions(n):
     response = requests.get(f'https://jservice.io/api/random?count={n}').json()
@@ -28,12 +27,12 @@ def questions(n):
     answer = None
     x = []
     while i < n:
-        session = Session()
-        if session.query(Questions.id_question).filter(Questions.id_question == response[i]["id"]) != response[i]["id"]:
+        session = Session() #Сеанс
+        if session.query(Questions.id_question).filter(Questions.id_question == response[i]["id"]) != response[i]["id"]: # Сверяем есть ли первый элемент в таблие
             id_question = response[i]["id"]
             question = response[i]["question"]
             if len(session.query(Questions).all()) > 0:
-                answer = session.query(Questions.question).filter(Questions.id == len(session.query(Questions).all()))
+                answer = session.query(Questions.question).filter(Questions.id == len(session.query(Questions).all())) # Переписываем предывуший вопрос и таблицы
             else:
                 pass
             creation_date = response[i]["airdate"]
